@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Job\Application;
+use Illuminate\Support\Facades\File;
 class UsersController extends Controller
 {
     //
@@ -48,6 +49,43 @@ class UsersController extends Controller
         if($userDetailsUpdate){
             return redirect('/users/edit-details')->with('update', 'Details updated successfully');
         }
+
+    }
+    public function editCV(){
+        return view('users.editcv');
+    }
+    public function editImage(){
+        return view('users.editimage');
+    }
+    public function updateCV(Request $request){
+        $oldCV = User::find(Auth::user()->id);
+        if(File::exists(public_path("assets/cvs/{$oldCV->cv}"))){
+            File::delete(public_path("assets/cvs/{$oldCV->cv}"));
+        }
+
+        $destinationPath='assets/cvs';
+        $mycv = $request->cv->getClientOriginalName();
+        $request->cv->move(public_path($destinationPath), $mycv);
+        $oldCV->update([
+            'cv'=>$mycv
+        ]);
+
+        return redirect('/users/profile')->with('update', 'CV updated successfully');
+
+    }
+    public function updateImage(Request $request){
+        $oldImage = User::find(Auth::user()->id);
+        if(File::exists(public_path("assets/images_users/{$oldImage->cv}"))){
+            File::delete(public_path("assets/cvs/{$oldImage->cv}"));
+        }
+        $destinationPath='assets/images_users';
+        $myimage = $request->image->getClientOriginalName();
+        $request->image->move(public_path($destinationPath), $myimage);
+        $oldImage->update([
+            'image'=>$myimage
+        ]);
+
+        return redirect('/users/profile')->with('update', 'Profile Image updated successfully');
 
     }
 }

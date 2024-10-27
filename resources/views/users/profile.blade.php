@@ -7,6 +7,12 @@
         <div class="col-md-7">
         <div class="card p-3 py-4">
 
+            <div class="container">
+                @if (\Session::has('update'))
+         <div class="alert alert-success">
+            <p>{!! \Session::get('update') !!}</p></div>
+         @endif
+
                 <div class="text-center">
                     <img src="{{asset('assets/images_users/'.$profile->image)}}" alt="Image" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                 </div>
