@@ -36,6 +36,15 @@ class UsersController extends Controller
     }
     public function updateDetails(Request $request)
     {
+        Request()->validate([
+            "name" => "required|max:50",
+            "email" => "required",
+            "job_title" => "required|max:60",
+            "bio" => "required|max:999",
+            "facebook" => "required|max:399",
+            "github" => "required||max:399",
+            "linkedin" => "required||max:399",
+        ]);
         $userDetailsUpdate = User::find(Auth::user()->id);
         $userDetailsUpdate->update([
             "name" => $request->name,

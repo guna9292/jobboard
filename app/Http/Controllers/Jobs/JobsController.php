@@ -73,4 +73,38 @@ class JobsController extends Controller
         }
     }
     }
+
+    public function search(Request $request){
+
+        $request->validate([
+            "job_title" => "nullable|max:60",
+            "job_region" => "nullable|max:60",
+            "job_type" => "nullable|max:60",
+        ]);
+
+        if (empty($request->job_title) && empty($request->job_region) && empty($request->job_type)) {
+            return redirect()->back()->with('error', 'At least one search field must be filled.');
+        }
+
+
+        $query = Job::query();
+
+        if ($request->has('job_title') && !empty($request->job_title)) {
+            $query->where('job_title', 'LIKE', '%' . $request->job_title . '%');
+        }
+
+        if ($request->has('job_region') && !empty($request->job_region)) {
+            $query->where('job_region', 'LIKE', '%' . $request->job_region . '%');
+        }
+
+        if ($request->has('job_type') && !empty($request->job_type)) {
+            $query->where('job_type', 'LIKE', '%' . $request->job_type . '%');
+        }
+
+        // Add more dynamic search conditions as needed
+
+        $searches = $query->get();
+
+        return view('jobs.search', compact('searches'));
+    }
 }

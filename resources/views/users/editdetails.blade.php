@@ -43,14 +43,28 @@
             <div class="form-group mb-4">
               <label for="name" class="font-weight-bold">Name</label>
               <input type="text" name="name" value="{{ $userDetails->name }}" class="form-control" id="name" placeholder="Enter your name" required>
-            </div>
+                @if($errors->has('name'))
+                <div class="alert alert-danger">
+                    <p>Please enter a valid NAME.{{ $errors->first('name') }}</p>
+                </div>
+                @endif
             <div class="form-group mb-4">
               <label for="email" class="font-weight-bold">Email</label>
               <input type="email" name="email" value="{{ $userDetails->email }}" class="form-control" id="email" placeholder="Enter your email" required>
+              @if($errors->has('email'))
+              <div class="alert alert-danger">
+                  <p>Please enter a valid EMAIL.{{ $errors->first('email') }}</p>
+              </div>
+              @endif
             </div>
             <div class="form-group mb-4">
               <label for="job-title" class="font-weight-bold">Job Title</label>
               <input type="text" name="job_title" value="{{ $userDetails->job_title }}" class="form-control" id="job-title" placeholder="Job title here...">
+              @if($errors->has('job_title'))
+              <div class="alert alert-danger">
+                  <p>Please enter a valid JOB TITLE.{{ $errors->first('job_title') }}</p>
+              </div>
+              @endif
             </div>
 
             <!-- Text Area for Bio -->
@@ -65,17 +79,32 @@
               <div class="col-md-6 form-group mb-4">
                 <label for="facebook" class="font-weight-bold">Facebook</label>
                 <input type="text" name="facebook" value="{{ $userDetails->facebook }}" class="form-control" id="facebook" placeholder="Facebook profile link" oninput="validateForm()">
+                @if($errors->has('facebook'))
+                <div class="alert alert-danger">
+                  <p>Please enter a valid URL.{{ $errors->first('facebook') }}</p>
+                </div>
+                @endif
                 <small id="facebookHelp" class="form-text text-muted">Enter a valid URL.</small>
-              </div>
+            </div>
               <div class="col-md-6 form-group mb-4">
                 <label for="github" class="font-weight-bold">Github</label>
                 <input type="text" name="github" value="{{ $userDetails->github }}" class="form-control" id="github" placeholder="GitHub profile link" oninput="validateForm()">
+                @if($errors->has('github'))
+                <div class="alert alert-danger">
+                  <p>Please enter a valid URL.{{ $errors->first('github') }}</p>
+                </div>
+                @endif
                 <small id="githubHelp" class="form-text text-muted">Enter a valid URL.</small>
               </div>
             </div>
             <div class="form-group mb-4">
               <label for="linkedin" class="font-weight-bold">LinkedIn</label>
               <input type="text" name="linkedin" value="{{ $userDetails->linkedin }}" class="form-control" id="linkedin" placeholder="LinkedIn profile link" oninput="validateForm()">
+              @if($errors->has('linkedin'))
+              <div class="alert alert-danger">
+                  <p>Please enter a valid URL.{{ $errors->first('linkedin') }}</p>
+              </div>
+              @endif
               <small id="linkedinHelp" class="form-text text-muted">Enter a valid URL.</small>
             </div>
 

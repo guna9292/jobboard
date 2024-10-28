@@ -1,32 +1,32 @@
 @extends('layouts.app')
-
 @section('content')
-{{-- HOME --}}
+
+<!-- HOME -->
 <section class="section-hero overlay inner-page bg-image" style="background-image: url('{{asset('assets/images/hero_1.jpg')}}');margin-top:-24px;" id="home-section">
     <div class="container">
       <div class="row">
         <div class="col-md-7">
-          <h1 class="text-white font-weight-bold">{{$name}} Category</h1>
+          <h1 class="text-white font-weight-bold">Search Results</h1>
           <div class="custom-breadcrumbs">
             <a href="#">Home</a> <span class="mx-2 slash">/</span>
             <a href="#">Job</a> <span class="mx-2 slash">/</span>
-            <span class="text-white"><strong>{{$name}}</strong></span>
+            <span class="text-white"><strong>Search Results</strong></span>
           </div>
         </div>
       </div>
     </div>
   </section>
-<section class="site-section">
+  <section class="site-section">
     <div class="container">
 
       <div class="row mb-5 justify-content-center">
         <div class="col-md-7 text-center">
-          <h2 class="section-title mb-2">{{$name}} Jobs</h2>
+          <h2 class="section-title mb-2">Search Results</h2>
         </div>
       </div>
 
-      @if ($jobs->count() > 0)
-      @foreach ($jobs as $job)
+      @if ($searches->count() > 0)
+      @foreach ($searches as $job)
       <ul class="job-listings mb-5">
         <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
           <a href="{{ route('single.job',$job->id)}}"></a>
@@ -48,13 +48,13 @@
           </div>
 
         </li>
-        </ul>
+    </ul>
         @endforeach
         @else
         <div class="alert alert-danger text-center" style="max-width: 400px; margin: 0 auto;">
           <img src="https://img.freepik.com/free-vector/hand-drawn-no-data-illustration_23-2150584265.jpg?semt=ais_hybrid" alt="Image" class="img-fluid">
-          <h4 class="mt-5 alert-heading">No Jobs Found</h4>
-          <p>There are no jobs under this category.</p>
+          <h4 class="mt-5 alert-heading">No Search Results Found</h4>
+          <p>There are no jobs under this search.</p>
         </div>
         @endif
 
