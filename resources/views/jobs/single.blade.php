@@ -95,6 +95,7 @@
 
                         <div class="row mb-5">
                             <div class="col-6">
+                                @if(isset(Auth::user()->id))
                                 <form action="{{route('save.job')}}" method="POST">
                                     @csrf
                                     <input name="job_id" type="hidden"  value="{{$job->id}}">
@@ -112,6 +113,7 @@
                                     @endif
                                     <!--add text-danger to it to make it read-->
                                 </form>
+
                             </div>
                             <div class="col-6">
                                 @if(!empty($job->url))
@@ -134,6 +136,9 @@
 
                                     <!--add text-danger to it to make it read-->
                                 </form>
+                                @endif
+                                @else
+                                    <a href="{{route('login')}}" class="btn btn-block btn-primary btn-md">Login to Apply</a>
                                 @endif
                             </div>
                         </div>
@@ -188,8 +193,6 @@
 
         <ul class="job-listings mb-5">
             @foreach ($relatedJobs as $job)
-
-
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <a href="{{route('single.job',$job->id)}}"></a>
             <div class="job-listing-logo">

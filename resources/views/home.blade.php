@@ -45,14 +45,14 @@
           <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
             <select name="job_region" class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Region">
               <option>Anywhere</option>
-              <option>San Francisco</option>
-              <option>Palo Alto</option>
-              <option>New York</option>
-              <option>Manhattan</option>
-              <option>Ontario</option>
-              <option>Toronto</option>
-              <option>Kansas</option>
-              <option>Mountain View</option>
+              <option>Bengaluru</option>
+              <option>Mumbai</option>
+              <option>Chennai</option>
+              <option>Visakhapatnam</option>
+              <option>Delhi</option>
+              <option>Guragaon</option>
+              <option>Srikakulam</option>
+              <option>New york</option>
             </select>
           </div>
           <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
@@ -69,9 +69,9 @@
           <div class="col-md-12 popular-keywords">
             <h3>Trending Keywords:</h3>
             <ul class="keywords list-unstyled m-0 p-0">
-              <li><a href="#" class="">UI Designer</a></li>
-              <li><a href="#" class="">Python</a></li>
-              <li><a href="#" class="">Developer</a></li>
+              @foreach($duplicates as $duplicate)
+              <li><a href="#" class="">{{$duplicate->keyword}}</a></li>
+              @endforeach
             </ul>
           </div>
         </div>
@@ -175,7 +175,7 @@
       <p class="mb-0 text-white lead">We're here to assist you about that.Stay Connected to Us.</p>
     </div>
     <div class="col-md-3 ml-auto">
-      <a href="#" class="btn btn-warning btn-block btn-lg">Sign Up</a>
+      <a href="{{route('register')}}" class="btn btn-warning btn-block btn-lg">Sign Up</a>
     </div>
   </div>
 </div>

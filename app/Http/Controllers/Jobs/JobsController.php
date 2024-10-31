@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Job\Job;
 use App\Models\Job\JobSaved;
 use App\Models\Job\Application;
+use App\Models\Job\Search;
 use App\Models\Category\Category;
 use Auth;
 
@@ -28,16 +29,19 @@ class JobsController extends Controller
         $relatedJobsCount= Job::where('category',$job->category)
         ->where('id','!=',$id)
         ->count();
-
-        // save job
-        $savedJob= Jobsaved::where('job_id',$id)->where('user_id',Auth::user()->id)->count();
-        //verifying job application
-        $appliedJob= Application::where('user_id',operator: Auth::user()->id)->where('job_id',$id)->count();
-        //categories
+//categories
         $categories=Category::all()->take(7);
 
-        // $applications=Application::where('user_id',Auth::user()->id)->get();
-        return view('jobs.single',compact('job','relatedJobs','relatedJobsCount','savedJob','appliedJob','categories'));
+        // save job
+        if (isset(Auth::user()->id)) {
+            $savedJob = JobSaved::where('job_id', $id)->where('user_id', Auth::user()->id)->count();
+            // verifying job application
+            $appliedJob = Application::where('user_id', Auth::user()->id)->where('job_id', $id)->count();
+        } else {
+            $savedJob = 0;
+            $appliedJob = 0;
+        }
+        return view('jobs.single', compact('job', 'relatedJobs', 'relatedJobsCount', 'savedJob', 'appliedJob', 'categories'));
     }
     public function saveJob(Request $request){
        $saveJob = JobSaved::create([
@@ -74,37 +78,46 @@ class JobsController extends Controller
     }
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+{
+    $request->validate([
+        "job_title" => "nullable|max:60",
+        "job_region" => "nullable|max:60",
+        "job_type" => "nullable|max:60",
+    ]);
 
-        $request->validate([
-            "job_title" => "nullable|max:60",
-            "job_region" => "nullable|max:60",
-            "job_type" => "nullable|max:60",
+    // Only insert a search record if job_title is provided
+    if (!empty($request->job_title)) {
+        Search::create([
+            "keyword" => $request->job_title,
         ]);
-
-        if (empty($request->job_title) && empty($request->job_region) && empty($request->job_type)) {
-            return redirect()->back()->with('error', 'At least one search field must be filled.');
-        }
-
-
-        $query = Job::query();
-
-        if ($request->has('job_title') && !empty($request->job_title)) {
-            $query->where('job_title', 'LIKE', '%' . $request->job_title . '%');
-        }
-
-        if ($request->has('job_region') && !empty($request->job_region)) {
-            $query->where('job_region', 'LIKE', '%' . $request->job_region . '%');
-        }
-
-        if ($request->has('job_type') && !empty($request->job_type)) {
-            $query->where('job_type', 'LIKE', '%' . $request->job_type . '%');
-        }
-
-        // Add more dynamic search conditions as needed
-
-        $searches = $query->get();
-
-        return view('jobs.search', compact('searches'));
     }
+
+    // Check for at least one search field, ignoring "Anywhere" as a valid entry
+    if (empty($request->job_title) && ($request->job_region == "Anywhere" || empty($request->job_region)) && empty($request->job_type)) {
+        return redirect()->back()->with('error', 'At least one search field must be filled.');
+    }
+
+    $query = Job::query();
+
+    if ($request->filled('job_title')) {
+        $jobTitle = strtolower($request->job_title);
+        $query->whereRaw('LOWER(job_title) LIKE ?', ['%' . $jobTitle . '%'])
+              ->orWhereRaw('LOWER(category) LIKE ?', ['%' . $jobTitle . '%']);
+    }
+
+    // Only add region filter if it's not "Anywhere"
+    if ($request->filled('job_region') && $request->job_region !== "Anywhere") {
+        $query->where('job_region', 'LIKE', "%{$request->job_region}%");
+    }
+
+    if ($request->filled('job_type')) {
+        $query->where('job_type', 'LIKE', "%{$request->job_type}%");
+    }
+
+    $searches = $query->get();
+
+    return view('jobs.search', compact('searches'));
+}
+
 }

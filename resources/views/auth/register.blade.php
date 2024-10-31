@@ -66,6 +66,7 @@
               <div class="row form-group">
                 <div class="col-md-12">
                   <input type="submit" name="submit" value="Sign Up" class="btn px-4 btn-primary text-white">
+                  <a href="{{ route('login') }}" class="btn px-4 btn-primary text-white">Already have an account? Login</a>
                 </div>
               </div>
 

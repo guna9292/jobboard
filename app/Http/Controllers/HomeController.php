@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Job\Job;
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -11,10 +12,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -23,9 +24,16 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $duplicates = DB::table('searches')
+        ->select('keyword',DB::raw('COUNT(*) as `count`'))
+        ->groupBy('keyword')->havingRaw('COUNT(*) > 1')->take(4)
+        ->orderBy('count', 'desc')->get();
+
+
+
         $jobs = Job::select()->take(5)->orderBy('id','desc')->get();
         $totalJobs = Job::all()->count();
-        return view('home',compact('jobs','totalJobs'));
+        return view('home',compact('jobs','totalJobs','duplicates'));
     }
     public function about()
     {
