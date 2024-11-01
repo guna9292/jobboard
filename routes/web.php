@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Jobs\JobsController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\Admins\AdminsController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -45,4 +45,15 @@ Route::post('/edit-image', [App\Http\Controllers\Users\UsersController::class, '
 //cv
 Route::get('/edit-cv',[App\Http\Controllers\Users\UsersController::class,'editCV'])->name('edit.cv');
 Route::post('/edit-cv', [App\Http\Controllers\Users\UsersController::class, 'updateCV'])->name('update.cv');
+});
+
+
+Route::post('admin/login',[App\Http\Controllers\Admins\AdminsController::class,'checkLogin'])->name('check.login')->middleware('checkforauth');
+Route::get('admin/login',[App\Http\Controllers\Admins\AdminsController::class,'viewLogin'])->name('view.login')->middleware('checkforauth');
+Route::post('admin/logout', [App\Http\Controllers\Admins\AdminsController::class, 'logout'])->name('admin.logout');
+
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
+    Route::get('/',[App\Http\Controllers\Admins\AdminsController::class,'index'])->name('admins.dashboard');
+    Route::get('/all-admins',[App\Http\Controllers\Admins\AdminsController::class,'admins'])->name('view.admins');
+
 });
