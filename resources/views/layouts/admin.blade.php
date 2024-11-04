@@ -33,10 +33,10 @@
                 <a class="nav-link" href="{{route('view.admins')}}" style="margin-left: 20px;">Admins</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="categories-admins/show-categories.html" style="margin-left: 20px;">Categories</a>
+                <a class="nav-link" href="{{ route('display.categories') }}" style="margin-left: 20px;">Categories</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="jobs-admins/show-jobs.html" style="margin-left: 20px;">Jobs</a>
+                <a class="nav-link" href="{{route('display.jobs')}}" style="margin-left: 20px;">Jobs</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="applications-admins/show-apps.html" style="margin-left: 20px;">Applications</a>
@@ -52,7 +52,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{Auth::guard('admin')->user()->email}}
+                                {{Auth::guard('admin')->user()->name}}
                                 </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('admin.logout') }}"

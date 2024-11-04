@@ -42,8 +42,8 @@ class UsersController extends Controller
             "job_title" => "required|max:60",
             "bio" => "required|max:999",
             "facebook" => "required|max:399",
-            "github" => "required||max:399",
-            "linkedin" => "required||max:399",
+            "github" => "required|max:399",
+            "linkedin" => "required|max:399",
         ]);
         $userDetailsUpdate = User::find(Auth::user()->id);
         $userDetailsUpdate->update([

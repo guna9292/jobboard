@@ -26,6 +26,7 @@ class Job extends Model
         'education_experience',
         'otherbenefits',
         'image',
+        'category',
         'url',
         'created_at',
         'updated_at',

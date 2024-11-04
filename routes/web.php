@@ -55,5 +55,26 @@ Route::post('admin/logout', [App\Http\Controllers\Admins\AdminsController::class
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/',[App\Http\Controllers\Admins\AdminsController::class,'index'])->name('admins.dashboard');
     Route::get('/all-admins',[App\Http\Controllers\Admins\AdminsController::class,'admins'])->name('view.admins');
+    Route::get('/create-admin',[App\Http\Controllers\Admins\AdminsController::class,'createAdmins'])->name('create.admins');
+    Route::post('/create-admin',[App\Http\Controllers\Admins\AdminsController::class,'storeAdmins'])->name('store.admins');
 
+    Route::get('/display-categories',[App\Http\Controllers\Admins\AdminsController::class,'displayCategories'])->name('display.categories');
+    Route::get('/create-cates',[App\Http\Controllers\Admins\AdminsController::class,'createCategories'])->name('create.categories');
+    Route::post('/create-cates',[App\Http\Controllers\Admins\AdminsController::class,'storeCategories'])->name('store.categories');
+
+    //update categories
+    Route::get('/edit-cates/{id}',[App\Http\Controllers\Admins\AdminsController::class,'editCategories'])->name('edit.categories');
+    Route::post('/edit-cates/{id}',[App\Http\Controllers\Admins\AdminsController::class,'updateCategories'])->name('update.categories');
+
+    //delete categories
+    Route::get('/delete-cates/{id}',[App\Http\Controllers\Admins\AdminsController::class,'deleteCategories'])->name('delete.categories');
+
+
+    //jobs
+    Route::get('/display-jobs',[App\Http\Controllers\Admins\AdminsController::class,'allJobs'])->name('display.jobs');
+    Route::get('/create-jobs',[App\Http\Controllers\Admins\AdminsController::class,'createJobs'])->name('create.jobs');
+    Route::post('/create-jobs',[App\Http\Controllers\Admins\AdminsController::class,'storeJobs'])->name('store.jobs');
+
+    //delete jobs
+    Route::get('/delete-jobs/{id}',[App\Http\Controllers\Admins\AdminsController::class,'deleteJobs'])->name('delete.jobs');
 });
