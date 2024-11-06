@@ -129,24 +129,23 @@ public function createJobs(){
     return view('admins.create-jobs',compact('categories'));
 }
 public function storeJobs(Request $data){
-    // Request()->validate([
-    //     "id" => "required | max:10",
-    //     "job_title" => "required | max:200",
-    //     "job_region" => "required | max:200",
-    //     'company' => "required | max:200",
-    //     'job_type' => "required",
-    //     'vacancy' => "required",
-    //     'experience' => "required",
-    //     'salary' => "required",
-    //     'Gender' => "required",
-    //     'application_deadline' => "required",
-    //     'jobdescription' => "required",
-    //     'responsibilities' => "required",
-    //     'education_experience' => "required",
-    //     'otherbenefits' => "required",
-    //     'image' => "required",
-    //     'category' => "required",
-    // ]);
+    Request()->validate([
+        "id" => "required | max:10",
+        "job_title" => "required | max:200",
+        "job_region" => "required | max:200",
+        "company" => "required | max:200",
+        "job_type" => "required",
+        "vacancy" => "required",
+        "experience" => "required",
+        "salary" => "required",
+        "Gender" => "required",
+        "application_deadline" => "required",
+        "jobdescription" => "required",
+        "responsibilities" => "required",
+        "education_experience" => "required",
+        "otherbenefits" => "required",
+        "category" => "required",
+    ]);
 
     $createJobs = Job::create([
         'id' => $data->job_id,
@@ -170,7 +169,7 @@ public function storeJobs(Request $data){
     if($createJobs){
         return redirect('admin/display-jobs')->with('create', 'Job created successfully');
     }
-    return view('admins.create-admins')->with('error', 'Error creating Admin');
+    else return view('admins.create-admins')->with('error', 'Error creating Job');
 }
 public function deleteJobs($id){
     $deleteJobs = Job::find($id);
@@ -181,5 +180,18 @@ public function deleteJobs($id){
         return redirect('admin/display-jobs/')->with('error','Error deleting Job');
     }
 }
+public function displayApps(){
+    $apps = Application::all();
+    return view('admins.display-apps',compact('apps'));
+}
+public function deleteApps($id){
+    $deleteApps = Application::find($id);
+    $deleteApps->delete();
+    if($deleteApps){
+    return redirect('admin/display-apps/')->with('delete','Successfully deleted');}
+    else{
+        return redirect('admin/display-apps/')->with('error','Error deleting Application');
+    }
 
+}
 }

@@ -72,6 +72,9 @@
                                     <a class="dropdown-item" href="{{ route('edit.image') }}">
                                        Edit Image
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('edit.video') }}">
+                                       Edit Video
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('applications') }}">
                                        My Applications
                                     </a>

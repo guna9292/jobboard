@@ -33,11 +33,19 @@
           <form class="p-4 p-md-5 border rounded shadow-sm" enctype="multipart/form-data" action="{{ route('update.image') }}" method="POST" style="background-color: #f9f9f9;" id="profileForm">
             @csrf
             <h3 class="text-center mb-4" style="font-weight: bold; color: #333;">Update Profile Image</h3>
+            @if (\Session::has('update'))
+            <div class="alert alert-success">
+               <p>{!! \Session::get('update') !!}</p></div>
+            @endif
 
             <!-- User Details -->
             <div class="form-group mb-4">
               <label for="name" class="font-weight-bold">Profile Image</label>
               <input type="file" name="image" class="form-control" id="name">
+              @if ($errors->has('video'))
+              <div class="alert alert-danger">
+                 <p>{{ $errors->first('video') }}</p></div>
+              @endif
             </div>
 
             <!-- Submit Button -->

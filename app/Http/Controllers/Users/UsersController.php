@@ -66,7 +66,13 @@ class UsersController extends Controller
     public function editImage(){
         return view('users.editimage');
     }
+    public function editVideo(){
+        return view('users.editvideo');
+    }
     public function updateCV(Request $request){
+        Request()->validate([
+            "cv" => "required|mimes:pdf,doc,docx",
+        ]);
         $oldCV = User::find(Auth::user()->id);
         if(File::exists(public_path("assets/cvs/{$oldCV->cv}"))){
             File::delete(public_path("assets/cvs/{$oldCV->cv}"));
@@ -83,9 +89,12 @@ class UsersController extends Controller
 
     }
     public function updateImage(Request $request){
+        Request::validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
         $oldImage = User::find(Auth::user()->id);
-        if(File::exists(public_path("assets/images_users/{$oldImage->cv}"))){
-            File::delete(public_path("assets/cvs/{$oldImage->cv}"));
+        if(File::exists(public_path("assets/images_users/{$oldImage->image}"))){
+            File::delete(public_path("assets/images_users/{$oldImage->image}"));
         }
         $destinationPath='assets/images_users';
         $myimage = $request->image->getClientOriginalName();
@@ -95,6 +104,25 @@ class UsersController extends Controller
         ]);
 
         return redirect('/users/profile')->with('update', 'Profile Image updated successfully');
+
+    }
+    public function updateVideo(Request $request){
+
+        Request()->validate([
+            "video" => "required|mimes:mp4,mov,ogg,qt",
+        ]);
+        $oldVideo = User::find(Auth::user()->id);
+        if(File::exists(public_path("assets/videos_users/{$oldVideo->video}"))){
+            File::delete(public_path("assets/videos_users/{$oldVideo->video}"));
+        }
+        $destinationPath='assets/videos_users';
+        $myvideo = $request->video->getClientOriginalName();
+        $request->video->move(public_path($destinationPath), $myvideo);
+        $oldVideo->update([
+            'video'=>$myvideo
+        ]);
+
+        return redirect('/users/profile')->with('update', 'Profile Video updated successfully');
 
     }
 }

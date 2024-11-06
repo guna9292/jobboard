@@ -11,6 +11,7 @@ use App\Models\Job\Application;
 use App\Models\Job\Search;
 use App\Models\Category\Category;
 use Auth;
+use DB;
 
 class JobsController extends Controller
 {
@@ -30,7 +31,10 @@ class JobsController extends Controller
         ->where('id','!=',$id)
         ->count();
 //categories
-        $categories=Category::all()->take(7);
+        $categories=DB::table('categories')->join('jobs','jobs.category','=','categories.name')->
+        select('categories.name AS name','categories.id AS id',DB::raw('count(jobs.category) AS total'))
+        ->groupBy('categories.name', 'categories.id')
+        ->limit(7)->get();
 
         // save job
         if (isset(Auth::user()->id)) {
@@ -58,14 +62,16 @@ class JobsController extends Controller
        }
     }
     public function jobApply(Request $request){
-        if($request->cv =='No CV'){
-            return redirect('/jobs/single/'.$request->job_id)->with('apply','Please upload your CV first at your profile.');
+        if (Auth::user()->cv === 'No CV') {
+            return redirect('/jobs/single/'.$request->job_id)->with('error', 'Please upload your CV first at your profile.');
         }
         else{
         $applyJob = Application::create([
-            'cv' =>Auth::user()->cv,
             'job_id' =>$request->job_id,
+            'cv' =>Auth::user()->cv,
+            'video'=> Auth::user()->video,
             'user_id' =>Auth::user()->id,
+            'email' =>Auth::user()->email,
             'job_image' =>$request->job_image,
             'job_title' =>$request->job_title,
             'job_region' =>$request->job_region,

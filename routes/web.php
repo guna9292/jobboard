@@ -41,6 +41,9 @@ Route::post('/edit-details', [App\Http\Controllers\Users\UsersController::class,
 //image
 Route::get('/edit-image',[App\Http\Controllers\Users\UsersController::class,'editImage'])->name('edit.image');
 Route::post('/edit-image', [App\Http\Controllers\Users\UsersController::class, 'updateImage'])->name('update.image');
+//video
+Route::get('/edit-video',[App\Http\Controllers\Users\UsersController::class,'editVideo'])->name('edit.video');
+Route::post('/edit-video', [App\Http\Controllers\Users\UsersController::class, 'updateVideo'])->name('update.video');
 
 //cv
 Route::get('/edit-cv',[App\Http\Controllers\Users\UsersController::class,'editCV'])->name('edit.cv');
@@ -77,4 +80,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     //delete jobs
     Route::get('/delete-jobs/{id}',[App\Http\Controllers\Admins\AdminsController::class,'deleteJobs'])->name('delete.jobs');
+
+
+    Route::get('/display-apps',[App\Http\Controllers\Admins\AdminsController::class,'displayApps'])->name('display.apps');
+    Route::get('/delete-apps/{id}',[App\Http\Controllers\Admins\AdminsController::class,'deleteApps'])->name('delete.apps');
+
 });

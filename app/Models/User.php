@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'image',
+        'video',
         'cv',
         'job_title',
         'bio',

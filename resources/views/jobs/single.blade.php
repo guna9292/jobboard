@@ -29,6 +29,10 @@
  <div class="alert alert-success">
     <p>{!! \Session::get('applied') !!}</p></div>
  @endif
+ @if (\Session::has('error'))
+ <div class="alert alert-danger">
+    <p>{!! \Session::get('error') !!}</p></div>
+ @endif
 </div>
 
     <section class="site-section">
@@ -171,7 +175,7 @@
                               <h3 class="text-primary h5 pl-3 mb-3 ">Categories</h3>
                               <ul class="list-unstyled pl-3 mb-0">
                                 @foreach ($categories as  $category)
-                                <li class="mb-2"><a class="text-decoration-none" href="{{route('categories.single',$category->name)}}">{{$category->name}}</a></li>
+                                <li class="mb-2"><a class="text-decoration-none" href="{{route('categories.single',$category->name)}}">{{$category->name}}<space>({{$category->total}})</space></a></li>
                                 @endforeach
                               </ul>
                             </div>
