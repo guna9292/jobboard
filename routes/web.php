@@ -14,7 +14,12 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('we
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
-Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+// Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+// Route::get('/contact',[App\Http\Controllers\ContactController::class,'send'])->name('contact.send');
+Route::get('/contact',[App\Http\Controllers\ContactController::class,'show'])->name('contact');
+Route::post('/contact',[App\Http\Controllers\ContactController::class,'sendEnquiry'])->name('contact.sendEnquiry');
+
+// Route::post('/contact', [App\Http\Controllers\HomeController::class, 'contactUs'])->name('contact.us');
 
 Route::group(['prefix' => 'jobs'],function(){
     // job related

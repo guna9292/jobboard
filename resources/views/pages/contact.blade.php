@@ -2,7 +2,7 @@
 @section('content')
 
 <!-- HOME -->
-<section class="section-hero overlay inner-page bg-image" style="background-image: url('{{asset('assets/images/hero_1.jpg')}}');" id="home-section">
+<section class="section-hero overlay inner-page bg-image" style="background-image: url('{{asset('assets/images/hero_1.jpg')}}'); margin:-24px;" id="home-section">
     <div class="container">
       <div class="row">
         <div class="col-md-7">
@@ -20,16 +20,31 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 mb-5 mb-lg-0">
-          <form action="#" class="">
-
+            @if(session()->has('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+          <form action="{{ route('contact.sendEnquiry') }}" method="POST" class="form-group">
+            @csrf
             <div class="row form-group">
               <div class="col-md-6 mb-3 mb-md-0">
                 <label class="text-black" for="fname">First Name</label>
-                <input type="text" id="fname" class="form-control">
+                <input type="text" name="fname" class="form-control">
+                @if($errors->has('fname'))
+                <div class="alert alert-danger">
+                    <p>{{ $errors->first('fname') }}</p>
+                </div>
+                @endif
               </div>
               <div class="col-md-6">
                 <label class="text-black" for="lname">Last Name</label>
-                <input type="text" id="lname" class="form-control">
+                <input type="text" name="lname" class="form-control">
+                @if($errors->has('lname'))
+                <div class="alert alert-danger">
+                    <p>{{ $errors->first('lname') }}</p>
+                </div>
+                @endif
               </div>
             </div>
 
@@ -37,7 +52,12 @@
 
               <div class="col-md-12">
                 <label class="text-black" for="email">Email</label>
-                <input type="email" id="email" class="form-control">
+                <input type="email" name="email" class="form-control">
+                @if($errors->has('email'))
+                <div class="alert alert-danger">
+                    <p>{{ $errors->first('email') }}</p>
+                </div>
+                @endif
               </div>
             </div>
 
@@ -45,15 +65,25 @@
 
               <div class="col-md-12">
                 <label class="text-black" for="subject">Subject</label>
-                <input type="subject" id="subject" class="form-control">
+                <input type="subject" name="subject" class="form-control">
+                @if($errors->has('subject'))
+                <div class="alert alert-danger">
+                    <p>{{ $errors->first('subject') }}</p>
+                </div>
+                @endif
               </div>
             </div>
 
             <div class="row form-group">
               <div class="col-md-12">
                 <label class="text-black" for="message">Message</label>
-                <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Write your notes or questions here..."></textarea>
-              </div>
+                <textarea name="messageContent" cols="30" rows="7" class="form-control" placeholder="Write your notes or questions here..."></textarea>
+                @if($errors->has('messageContent'))
+                <div class="alert alert-danger">
+                    <p>{{ $errors->first('messageContent') }}</p>
+                </div>
+                @endif
+            </div>
             </div>
 
             <div class="row form-group">

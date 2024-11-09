@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Job\Job;
+use App\Mail\ContactUsMail;
 use DB;
 class HomeController extends Controller
 {
@@ -43,4 +44,27 @@ class HomeController extends Controller
     {
         return view('pages.contact');
     }
+    // public function contactUs(Request $request)
+    // {
+    //     $request->validate([
+    //         'fname' => 'required',
+    //         'lname'=> 'required',
+    //         'email'=> 'required',
+    //         'subject'=> 'required',
+    //         'message'=>'required',
+    //     ]);
+    //     $details = [
+    //         'title' => 'Contact Us Form Submission',
+    //         'body' => 'First Name: ' . $request->fname . "\n" .
+    //               'Last Name: ' . $request->lname . "\n" .
+    //               'Email: ' . $request->email . "\n" .
+    //               'Subject: ' . $request->subject . "\n" .
+    //               'Message: ' . $request->message
+    //     ];
+
+    //     \Mail::to('rulerthomas21@gmail.com')->send(new ContactUsMail($details));
+
+    //     return back()->with('success', 'Your message has been sent successfully!');
+
+    // }
 }
