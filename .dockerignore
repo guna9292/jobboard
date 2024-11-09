@@ -1,0 +1,7 @@
+# .dockerignore
+/deploy/docker-compose.yml
+/deploy/Dockerfile
+/node_modules
+/vendor
+.env
+.git
